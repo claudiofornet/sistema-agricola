@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#1b5e20">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Sistema Agrícola</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icone-192.png">
+<link rel="apple-touch-icon" href="icone-192.png">
+<style>
+  :root{--verde:#1b5e20;--verde2:#2e7d32;--claro:#e8f5e9;--fundo:#f4f6f3;--borda:#d7ddd5;--texto:#1f2a1f;--suave:#5f6b5f;--vermelho:#c62828;--amarelo:#f9a825;--azul:#1565c0}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--fundo);color:var(--texto);font-size:15px}
+  header{background:var(--verde);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  .topo{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;gap:8px}
+  .topo h1{font-size:17px;margin:0;font-weight:700}
+  .topo .quem{font-size:12px;opacity:.85;text-align:right}
+  nav{display:flex;gap:4px;overflow-x:auto;padding:0 8px 8px}
+  nav button{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:18px;padding:7px 13px;font-size:13px;white-space:nowrap;cursor:pointer}
+  nav button.ativo{background:#fff;color:var(--verde);font-weight:700}
+  main{max-width:1180px;margin:0 auto;padding:14px}
+  h2{font-size:19px;margin:4px 0 12px}
+  h3{font-size:16px;margin:0 0 10px}
+  .card{background:#fff;border:1px solid var(--borda);border-radius:12px;padding:14px;margin-bottom:14px}
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .mod h3{display:flex;align-items:center;gap:8px}
+  .mod .ic{font-size:24px}
+  .mod button{display:block;width:100%;text-align:left;margin:6px 0;background:var(--claro);border:1px solid #c8e6c9;color:var(--texto);padding:10px 12px;border-radius:8px;font-size:14px;cursor:pointer}
+  .mod button small{display:block;color:var(--suave);font-size:11px}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:#334}
+  input,select,textarea{width:100%;padding:10px;border:1px solid var(--borda);border-radius:8px;font-size:15px;background:#fff;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:2px solid #a5d6a7;border-color:var(--verde2)}
+  .campo{margin-bottom:12px}
+  .req{color:var(--vermelho)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--verde2);color:#fff;border:0;border-radius:8px;padding:11px 16px;font-size:15px;font-weight:600;cursor:pointer}
+  .btn.sec{background:#fff;color:var(--verde2);border:1px solid var(--verde2)}
+  .btn.perigo{background:var(--vermelho)}
+  .btn.peq{padding:6px 10px;font-size:13px}
+  .btn:disabled{opacity:.5}
+  .btn.largo{width:100%}
+  .linha{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+  .linha>*{flex:1;min-width:140px}
+  .linha>.btn{flex:0 0 auto}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--borda);border-radius:18px;padding:6px 10px;font-size:13px;background:#fff;font-weight:400}
+  .chip input{width:auto}
+  .slot{border:1px dashed #a5d6a7;border-radius:10px;padding:10px;margin-bottom:10px;background:#fafdf9}
+  .slot-t{font-weight:700;margin-bottom:8px}
+  .thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+  .th{position:relative}
+  .th img{width:92px;height:92px;object-fit:cover;border-radius:8px;border:1px solid var(--borda);cursor:pointer}
+  .th button{position:absolute;top:-6px;right:-6px;background:var(--vermelho);color:#fff;border:0;border-radius:50%;width:22px;height:22px;font-size:12px;cursor:pointer}
+  .gps{font-size:12px;color:var(--suave);margin:6px 0 12px}
+  .gps.ok{color:var(--verde2)}
+  .gps.erro{color:var(--vermelho)}
+  .info{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:8px 10px;font-size:13px;margin-bottom:12px}
+  .tab-wrap{overflow-x:auto;border:1px solid var(--borda);border-radius:8px}
+  table{border-collapse:collapse;width:100%;font-size:13px;background:#fff}
+  th,td{padding:7px 9px;border-bottom:1px solid #eef1ec;text-align:left;vertical-align:top;white-space:nowrap}
+  th{background:#f1f5ef;position:sticky;top:0;font-weight:700}
+  td.wrap{white-space:normal;min-width:180px}
+  td img{width:54px;height:54px;object-fit:cover;border-radius:6px;margin-right:4px}
+  .kpis{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));margin-bottom:14px}
+  .kpi{background:#fff;border:1px solid var(--borda);border-radius:12px;padding:12px}
+  .kpi b{display:block;font-size:24px;color:var(--verde)}
+  .kpi span{font-size:12px;color:var(--suave)}
+  .kpi.alerta b{color:var(--vermelho)}
+  .badge{display:inline-block;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700}
+  .b-Fraco,.b-Urgente,.b-atr{background:#ffebee;color:#b71c1c}
+  .b-Médio,.b-Alta{background:#fff3e0;color:#e65100}
+  .b-Bom,.b-Normal{background:#e8f5e9;color:#1b5e20}
+  .b-Excelente{background:#e3f2fd;color:#0d47a1}
+  .b-Baixa{background:#eceff1;color:#37474f}
+  .b-Aberta{background:#e3f2fd;color:#0d47a1}
+  .b-Em{background:#fff3e0;color:#e65100}
+  .b-Concluída{background:#e8f5e9;color:#1b5e20}
+  .b-Cancelada{background:#eceff1;color:#546e7a}
+  .os{border-left:5px solid var(--azul)}
+  .os.atr{border-left-color:var(--vermelho)}
+  .os .meta{font-size:12px;color:var(--suave);margin:4px 0 8px}
+  .graf{position:relative;height:280px}
+  .graf.alto{height:360px}
+  .dois{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+  .heat td.v{text-align:center}
+  .muted{color:var(--suave);font-size:13px}
+  .hide{display:none!important}
+  #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#263238;color:#fff;padding:11px 16px;border-radius:10px;font-size:14px;z-index:100;max-width:92vw;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  #toast.erro{background:var(--vermelho)}
+  #toast.ok{background:var(--verde2)}
+  #carg{position:fixed;inset:0;background:rgba(255,255,255,.75);z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-weight:600}
+  .spin{width:38px;height:38px;border:4px solid #c8e6c9;border-top-color:var(--verde2);border-radius:50%;animation:g 1s linear infinite}
+  @keyframes g{to{transform:rotate(360deg)}}
+  .login{max-width:380px;margin:9vh auto;padding:0 14px}
+  .login .logo{font-size:46px;text-align:center}
+  .login h1{text-align:center;color:var(--verde);margin:6px 0 20px}
+  /* editor de fotos */
+  #editor{position:fixed;inset:0;background:#111;z-index:80;display:flex;flex-direction:column}
+  .ed-tools{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:#222;align-items:center}
+  .ed-tools button{background:#333;color:#fff;border:1px solid #444;border-radius:8px;padding:8px 10px;font-size:14px;cursor:pointer}
+  .ed-tools button.ativo{background:#2e7d32;border-color:#66bb6a}
+  .ed-tools .cor{width:28px;height:28px;border-radius:50%;padding:0;border:2px solid #555}
+  .ed-tools .cor.ativo{border-color:#fff;box-shadow:0 0 0 2px #66bb6a}
+  .ed-tools input{width:170px;padding:7px;font-size:14px}
+  .ed-area{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:6px}
+  #edCanvas{max-width:100%;max-height:100%;touch-action:none;background:#000}
+  .ed-foot{display:flex;gap:8px;padding:8px;background:#222}
+  .ed-foot .btn{flex:1}
+  @media(max-width:600px){main{padding:10px}.card{padding:12px}.ed-tools input{width:120px}}
+  .stbar{font-size:12px;padding:0 14px 6px;color:#e8f5e9}
+  .stbar a{color:#fff;font-weight:700}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .dot.on{background:#69f0ae}.dot.off{background:#ff8a80}
+</style>
+</head>
+<body>
+<div id="app"><div class="login"><div class="logo">🌾</div><h1>Sistema Agrícola</h1><div class="card" id="bootMsg">Carregando o sistema…</div></div></div>
+<script>
+/* mostra qualquer erro na tela (em vez de página em branco) */
+window.onerror = function (msg, src, linha) {
+  var b = document.getElementById('bootMsg') || document.body;
+  var d = document.createElement('div');
+  d.style.cssText = 'background:#ffebee;color:#b71c1c;border:1px solid #ef9a9a;border-radius:8px;padding:10px;margin:10px;font:13px sans-serif';
+  d.textContent = 'Erro no sistema: ' + msg + (linha ? ' (linha ' + linha + ')' : '') + '. Confira se o arquivo Index foi colado completo e publique uma nova versão.';
+  b.appendChild(d);
+};
+setTimeout(function () { if (!window.__agroOK) window.onerror('o script principal não carregou'); }, 8000);
+</script>
+<div id="editor" class="hide">
+  <div class="ed-tools">
+    <button data-tool="seta" class="ativo">➚ Seta</button>
+    <button data-tool="circulo">◯ Círculo</button>
+    <button data-tool="ret">▭ Retângulo</button>
+    <button data-tool="livre">✎ Livre</button>
+    <button data-tool="texto">T Texto</button>
+    <input id="edTexto" placeholder="Texto e toque na foto">
+    <span id="edCores"></span>
+    <button onclick="edDesfazer()">↶ Desfazer</button>
+    <button onclick="edLimpar()">Limpar</button>
+  </div>
+  <div class="ed-area"><canvas id="edCanvas"></canvas></div>
+  <div class="ed-foot">
+    <button class="btn sec" onclick="edFechar(false)">Cancelar</button>
+    <button class="btn" onclick="edFechar(true)">✔ Usar foto</button>
+  </div>
+</div>
+
+<div id="carg" class="hide"><div class="spin"></div><div id="cargTxt">Carregando…</div></div>
+<div id="toast" class="hide"></div>
+<script src="lib/chart.umd.min.js" defer></script>
+<script src="lib/piexif.min.js" defer></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
